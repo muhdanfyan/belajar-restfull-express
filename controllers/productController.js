@@ -11,7 +11,6 @@ export const getProducts = async (req, res) => {
 }
 
 export const getProductById = async (req, res) => {
-    
     try {   
         const product = await Product.findById(req.params.id);
         res.json(product); 
@@ -31,6 +30,8 @@ export const saveProduct = async (req, res) => {
 }
 
 export const updateProduct = async (req, res) => {
+    const cekId = await Product.findById(req.params.id);
+    if (!cekId) return res.status(404).json({message :  "Data tidak ditemukan"});
     try {   
         const updatedProduct = await Product.updateOne(
             { _id : req.params.id }, 
@@ -42,6 +43,8 @@ export const updateProduct = async (req, res) => {
 }
 
 export const deleteProduct = async (req, res) => {
+    const cekId = await Product.findById(req.params.id);
+    if (!cekId) return res.status(404).json({message :  "Data tidak ditemukan"});
     try {   
         const deletedProduct = await Product.deleteOne({ _id : req.params.id });
         res.status(200).json(deletedProduct); 
